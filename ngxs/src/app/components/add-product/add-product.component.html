@@ -1,0 +1,118 @@
+<div class="d-flex justify-content-center mt-5">
+  <div style="width: 40vw" class="card shadow">
+    <div class="card-header">
+      <h3 class="text-primary"><b>Enter Product Data</b></h3>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="addProductForm" (ngSubmit)="submitAddProductForm()">
+        <div class="mb-3">
+          <label class="form-label"><strong>Product Name:</strong></label>
+          <input
+            type="text"
+            formControlName="productName"
+            class="form-control"
+            placeholder="Enter product name"
+            [class.is-invalid]="
+              (addProductForm.controls['productName'].touched ||
+                addProductForm.controls['productName'].dirty ||
+                invalidField) &&
+              addProductForm.controls['productName'].invalid
+            "
+          />
+
+          <div
+            *ngIf="
+              (addProductForm.controls['productName']?.touched ||
+                addProductForm.controls['productName']?.dirty ||
+                invalidField) &&
+              addProductForm.controls['productName']?.invalid
+            "
+          >
+            <small
+              class="text-danger"
+              *ngIf="addProductForm.controls['productName'].errors?.['required']"
+              >Please enter product name</small
+            >
+            <small
+              class="text-danger"
+              *ngIf="addProductForm.controls['productName'].errors?.['maxlength']"
+              >Product name should not be more than 15</small
+            >
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label"><strong>Brand Name:</strong></label>
+          <input
+            type="text"
+            formControlName="brand"
+            placeholder="Enter brand name"
+            class="form-control"
+            [class.is-invalid]="
+              (addProductForm.controls['brand'].touched ||
+                addProductForm.controls['brand'].dirty ||
+                invalidField) &&
+              addProductForm.controls['brand'].invalid
+            "
+          />
+
+          <div
+            *ngIf="
+              (addProductForm.controls['brand']?.touched ||
+                addProductForm.controls['brand']?.dirty ||
+                invalidField) &&
+              addProductForm.controls['brand']?.invalid
+            "
+          >
+            <small
+              class="text-danger"
+              *ngIf="addProductForm.controls['brand'].errors?.['required']"
+              >Please enter brand name</small
+            >
+            <small
+              class="text-danger"
+              *ngIf="addProductForm.controls['brand'].errors?.['maxlength']"
+              >Brand name should not be more than 15</small
+            >
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label"><strong>Available Item:</strong></label>
+          <input
+            type="number"
+            formControlName="availableCount"
+            placeholder="Enter available count"
+            class="form-control"
+            [class.is-invalid]="
+              (addProductForm.controls['availableCount'].touched ||
+                addProductForm.controls['availableCount'].dirty ||
+                invalidField) &&
+              addProductForm.controls['availableCount'].invalid
+            "
+          />
+          <div
+            *ngIf="
+              (addProductForm.controls['availableCount']?.touched ||
+                addProductForm.controls['availableCount']?.dirty ||
+                invalidField) &&
+              addProductForm.controls['availableCount']?.invalid
+            "
+          >
+            <small
+              class="text-danger"
+              *ngIf="addProductForm.controls['availableCount'].errors?.['required']"
+              >Please enter available count</small
+            >
+            <small
+              class="text-danger"
+              *ngIf="addProductForm.controls['availableCount'].errors?.['pattern']"
+              >Available count should not be more than 3</small
+            >
+          </div>
+        </div>
+        <div class="text-end">
+          <button type="submit" class="btn btn-outline-success">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

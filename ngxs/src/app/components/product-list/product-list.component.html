@@ -1,0 +1,211 @@
+
+<div class="text-center">
+  <div *ngIf="(loading |async)" class="spinner-border text-primary" role="status" style="width: 4rem; height: 4rem;"></div>
+</div>
+
+<div class="container pt-4">
+
+  <div *ngIf="!show" class="text-end">
+    <button class="btn btn-outline-primary" routerLink="/add-product">Add Product</button>
+  </div>
+
+  <div class="row mt-3">
+    <div *ngFor="let product of productList;let i=index" class="col-md-4 mb-3">
+      <div *ngIf="!show" class="card shadow">
+        <div class="card-header">
+          <div class="row">
+            <span class="text-info" routerLink='{{product.productId}}'> <strong style="cursor: pointer;">{{product.productName}}</strong></span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-2">
+              <span class="text-primary"><strong>Id:</strong></span>
+            </div>
+            <div class="col-md-10 text-end">
+              <span class="text-primary"><b>{{product.productId}}</b></span>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-9">
+              <span class="text-success"><strong>Available Item:</strong></span>
+            </div>
+            <div class="col-md-3 text-end">
+              <span class="text-success"><b>{{product.availableCount}}</b></span>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-5">
+              <span class="text-danger"><strong>Brand Name:</strong></span>
+            </div>
+            <div class="col-md-7 text-end">
+              <span class="text-danger"><b>{{product.brand}}</b></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <div class="row">
+            <div class="text-end">
+              <button
+                class="btn btn-outline-success"
+                style="margin-right: 12px"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+                (click)="editProduct(product.productId)" 
+              >
+                Edit
+              </button>
+              <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModel" (click)="getDeleteProductId(product.productId)">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Edit Proudct model -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-primary" id="exampleModalLabel">Edit Product</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModel()"></button>
+      </div>
+      <div class="modal-body">
+      
+        <form [formGroup]="editProductForm" (ngSubmit)="submitEditProductForm()">
+          <div class="mb-3">
+            <label class="form-label"><strong>Product Name:</strong></label>
+            <input
+              type="text"
+              formControlName="productName"
+              class="form-control"
+              placeholder="Enter product name"
+              value="editableProduct.productName"
+              [class.is-invalid]="
+                (editProductForm.controls['productName'].touched ||
+                  editProductForm.controls['productName'].dirty) &&
+                editProductForm.controls['productName'].invalid
+              "
+            />
+  
+            <div
+              *ngIf="
+                (editProductForm.controls['productName']?.touched ||
+                  editProductForm.controls['productName']?.dirty) &&
+                editProductForm.controls['productName']?.invalid
+              "
+            >
+              <small
+                class="text-danger"
+                *ngIf="editProductForm.controls['productName'].errors?.['required']"
+                >Please enter product name</small
+              >
+              <small
+                class="text-danger"
+                *ngIf="editProductForm.controls['productName'].errors?.['maxlength']"
+                >Product name should not be more than 15</small
+              >
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label"><strong>Brand Name:</strong></label>
+            <input
+              type="text"
+              formControlName="brand"
+              placeholder="Enter brand name"
+              class="form-control"
+              [class.is-invalid]="
+                (editProductForm.controls['brand'].touched ||
+                  editProductForm.controls['brand'].dirty) &&
+                editProductForm.controls['brand'].invalid
+              "
+            />
+  
+            <div
+              *ngIf="
+                (editProductForm.controls['brand']?.touched ||
+                  editProductForm.controls['brand']?.dirty) &&
+                editProductForm.controls['brand']?.invalid
+              "
+            >
+              <small
+                class="text-danger"
+                *ngIf="editProductForm.controls['brand'].errors?.['required']"
+                >Please enter brand name</small
+              >
+              <small
+                class="text-danger"
+                *ngIf="editProductForm.controls['brand'].errors?.['maxlength']"
+                >Brand name should not be more than 15</small
+              >
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label"><strong>Available Item:</strong></label>
+            <input
+              type="number"
+              formControlName="availableCount"
+              placeholder="Enter available count"
+              class="form-control"
+              [class.is-invalid]="
+                (editProductForm.controls['availableCount'].touched ||
+                  editProductForm.controls['availableCount'].dirty) &&
+                editProductForm.controls['availableCount'].invalid
+              "
+            />
+            <div
+              *ngIf="
+                (editProductForm.controls['availableCount']?.touched ||
+                  editProductForm.controls['availableCount']?.dirty) &&
+                editProductForm.controls['availableCount']?.invalid
+              "
+            >
+              <small
+                class="text-danger"
+                *ngIf="editProductForm.controls['availableCount'].errors?.['required']"
+                >Please enter available count</small
+              >
+              <small
+                class="text-danger"
+                *ngIf="editProductForm.controls['availableCount'].errors?.['pattern']"
+                >Available count should not be more than 3</small
+              >
+            </div>
+          </div>
+          <div class="text-end">
+            <button type="submit"  data-bs-dismiss="modal" class="btn btn-outline-success">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!--Delete confirmation Modal -->
+<div class="modal fade" id="deleteConfirmationModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger" id="exampleModalLabel">Hold On Bro!!!</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Do you really want to delete this product? This process cannot be undone.</p>
+        <div class="text-end">
+          <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" style="margin-left: 8px;" (click)="deleteProduct()">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

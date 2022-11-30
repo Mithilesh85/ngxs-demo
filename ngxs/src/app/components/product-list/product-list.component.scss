@@ -1,0 +1,29 @@
+.form-control {
+    box-shadow: none;
+  }
+  
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+  
+  .form-control.is-invalid {
+    box-shadow: none;
+    background-image: none;
+  }
+
+  .btn-close{
+    box-shadow: none;
+  }
+
+  .spinner-border {
+    display: block;
+    position: fixed;
+    z-index: 1031; /* High z-index so it is on top of the page */
+    top: 50%;
+    right: 50%; /* or: left: 50%; */
+   
+  }
